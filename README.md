@@ -95,6 +95,7 @@ Firefox doesn't support `chrome.identity.getAuthToken`, so the extension drives 
    - Authorized redirect URIs: paste the copied URL
 4. Put the resulting `client_id` into `.env` as `GOOGLE_FIREFOX_CLIENT_ID`.
 
+> [!NOTE]
 > This redirect URI depends on `browser_specific_settings.gecko.id` in `manifest.json` — if you change it, the URI changes too, and you'll need to update the redirect URI in the Google Cloud Console.
 
 ## 4. Run the backend
