@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail SQLite Sync",
+  "version": "1.0.0",
+  "permissions": ["identity", "storage"],
+  "host_permissions": [
+    "https://www.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "oauth2": {
+    "client_id": "pazurkota.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/gmail.readonly"]
+  },
+  "action": {
+    "default_title": "Synchronizuj Gmail"
+  }
+}
