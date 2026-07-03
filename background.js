@@ -14,12 +14,12 @@ async function loadToken() {
     const text = await res.text();
 
     const tokenMatch = text.match(/^GMAIL_API_TOKEN=(.+)$/m);
-    if (!tokenMatch) throw new Error('Brak GMAIL_API_TOKEN w .env');
+    if (!tokenMatch) throw new Error('No GMAIL_API_TOKEN in .env');
     CONFIG.apiToken = tokenMatch[1].trim();
 
     if (IS_FIREFOX) {
         const clientIdMatch = text.match(/^GOOGLE_FIREFOX_CLIENT_ID=(.+)$/m);
-        if (!clientIdMatch) throw new Error('Brak GOOGLE_FIREFOX_CLIENT_ID w .env');
+        if (!clientIdMatch) throw new Error('No GOOGLE_FIREFOX_CLIENT_ID in .env');
         CONFIG.firefoxClientId = clientIdMatch[1].trim();
     }
 }
@@ -40,7 +40,7 @@ async function getAuthTokenFirefox() {
     }
 
     const redirectUri = browser.identity.getRedirectURL();
-    console.log('[Gmail Sync] Firefox redirect URI (dodaj jako Authorized redirect URI w Google Cloud Console):', redirectUri);
+    console.log('[Gmail Sync] Firefox redirect URI (add as Authorized redirect URI in Google Cloud Console):', redirectUri);
 
     const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
     authUrl.searchParams.set('client_id', CONFIG.firefoxClientId);
