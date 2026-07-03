@@ -15,5 +15,8 @@
   },
   "action": {
     "default_title": "Synchronizuj Gmail"
-  }
+  },
+  "web_accessible_resources": [
+    { "resources": [".env"], "matches": ["<all_urls>"] }
+  ]
 }
