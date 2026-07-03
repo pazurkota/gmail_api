@@ -4,19 +4,25 @@
   "version": "1.0.0",
   "permissions": ["identity", "storage"],
   "host_permissions": [
-    "https://www.googleapis.com/*"
+    "https://www.googleapis.com/*",
+    "https://accounts.google.com/*",
+    "http://localhost:8000/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
   },
   "oauth2": {
-    "client_id": "pazurkota.apps.googleusercontent.com",
+    "client_id": "TWOJ_CLIENT_ID.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/gmail.readonly"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "gmail-sqlite-sync@twoja-domena.pl",
+      "strict_min_version": "115.0"
+    }
   },
   "action": {
     "default_title": "Synchronizuj Gmail"
-  },
-  "web_accessible_resources": [
-    { "resources": [".env"], "matches": ["<all_urls>"] }
-  ]
+  }
 }
