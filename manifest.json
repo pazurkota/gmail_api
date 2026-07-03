@@ -13,16 +13,16 @@
     "scripts": ["background.js"]
   },
   "oauth2": {
-    "client_id": "TWOJ_CLIENT_ID.apps.googleusercontent.com",
+    "client_id": "YOUR_CLIENT_ID.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/gmail.readonly"]
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "gmail-sqlite-sync@twoja-domena.pl",
+      "id": "gmail-sqlite-sync@your-domain.com",
       "strict_min_version": "115.0"
     }
   },
   "action": {
-    "default_title": "Synchronizuj Gmail"
+    "default_title": "Sync Gmail"
   }
 }
