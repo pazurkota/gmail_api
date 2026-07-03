@@ -474,3 +474,4 @@ composer.lock
 
 /.idea/
 .env
+/Database/*.sqlite

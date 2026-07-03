@@ -4,14 +4,24 @@ const IS_FIREFOX = typeof browser !== 'undefined' && typeof browser.runtime.getB
 const CONFIG = {
     apiUrl: 'http://localhost:8000/api.php',
     apiToken: null,
+    // Google OAuth "Web application" client (Chrome uses manifest.oauth2.client_id instead,
+    // which must be a separate "Chrome Extension" type client and can't be set at runtime).
+    firefoxClientId: null,
 };
 
 async function loadToken() {
     const res = await fetch(api.runtime.getURL('.env'));
     const text = await res.text();
-    const match = text.match(/GMAIL_API_TOKEN=(.+)/);
-    if (!match) throw new Error('Brak GMAIL_API_TOKEN w .env');
-    CONFIG.apiToken = match[1].trim();
+
+    const tokenMatch = text.match(/^GMAIL_API_TOKEN=(.+)$/m);
+    if (!tokenMatch) throw new Error('Brak GMAIL_API_TOKEN w .env');
+    CONFIG.apiToken = tokenMatch[1].trim();
+
+    if (IS_FIREFOX) {
+        const clientIdMatch = text.match(/^GOOGLE_FIREFOX_CLIENT_ID=(.+)$/m);
+        if (!clientIdMatch) throw new Error('Brak GOOGLE_FIREFOX_CLIENT_ID w .env');
+        CONFIG.firefoxClientId = clientIdMatch[1].trim();
+    }
 }
 
 function getAuthTokenChrome() {
@@ -29,10 +39,11 @@ async function getAuthTokenFirefox() {
         return stored.accessToken;
     }
 
-    const clientId = api.runtime.getManifest().oauth2.client_id;
     const redirectUri = browser.identity.getRedirectURL();
+    console.log('[Gmail Sync] Firefox redirect URI (dodaj jako Authorized redirect URI w Google Cloud Console):', redirectUri);
+
     const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
-    authUrl.searchParams.set('client_id', clientId);
+    authUrl.searchParams.set('client_id', CONFIG.firefoxClientId);
     authUrl.searchParams.set('response_type', 'token');
     authUrl.searchParams.set('redirect_uri', redirectUri);
     authUrl.searchParams.set('scope', 'https://www.googleapis.com/auth/gmail.readonly');

@@ -65,7 +65,10 @@ class GmailApi
 
     private function handleCors(): void
     {
-        header('Access-Control-Allow-Origin: *');
+        $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+        if (preg_match('#^(moz-extension|chrome-extension)://#', $origin)) {
+            header("Access-Control-Allow-Origin: {$origin}");
+        }
         header('Access-Control-Allow-Headers: Content-Type, X-Gmail-Token');
         header('Access-Control-Allow-Methods: POST, OPTIONS');
         if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
